@@ -1,0 +1,5 @@
+FROM alpine
+RUN apk update && \
+    apk add figlet
+ENTRYPOINT ["figlet", "-f", "smslint"]
+CMD "hello world"
