@@ -1,0 +1,13 @@
+# Base Image
+FROM sbeliakou/centos:7
+
+# Commands to install necessary software
+RUN yum install -y epel-release && \
+    yum install -y nginx && \
+    yum clean all
+
+# Adding assets
+COPY index.html /usr/share/nginx/html/
+
+# Main Process to run - container process
+CMD ["nginx", "-g", "daemon off;"]

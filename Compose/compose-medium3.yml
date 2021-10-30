@@ -1,0 +1,12 @@
+version: "3"
+
+services:
+  pause:
+    container_name: pause
+    image: k8s.gcr.io/pause:3.3
+    ports:
+      - "10087:80"
+  nginx:
+    container_name: nginx
+    image: nginx:alpine
+    network_mode: "service:pause"

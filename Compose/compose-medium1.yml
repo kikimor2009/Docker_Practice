@@ -1,0 +1,12 @@
+version: "3"
+  
+services:
+  httpd_web:
+    container_name: httpd_web
+    image: httpd
+    restart: on-failure
+    ports:
+      - "10084:80"
+    environment:
+      MAINTAINER: azbykovskyi
+      COURSE: compose

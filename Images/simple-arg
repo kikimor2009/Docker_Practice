@@ -1,0 +1,7 @@
+ARG CENTOS_IMAGE
+FROM ${CENTOS_IMAGE}
+
+ARG JAVA_VERSION=11
+
+RUN yum update -y
+RUN yum install -y "java-${JAVA_VERSION}-openjdk"

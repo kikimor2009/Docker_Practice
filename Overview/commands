@@ -1,0 +1,25 @@
+docker login
+
+docker pull centos:8
+
+docker images
+
+docker build -t my-tomcat-app:tomcat8.5.55-azbykovskyi-1 .
+
+docker run --name tomcat -d -p 8800:8080 my-tomcat-app:tomcat8.5.55-azbykovskyi-1
+
+#To build maven project you dont need to install anything. Just create such alias
+docker run -it \
+    -v /tasks/6/java-app/:/tasks/6/java-app/ \
+    -w /tasks/6/java-app/ \
+    maven:3.6-jdk-8-alpine \
+    mvn clean package
+
+#To stop all the containers
+docker stop $(docker ps -q)
+docker container stop $(docker container ls -q)
+
+#To remove images
+docker rmi nginx:stable
+docker image rm 741d47c34fe0
+docker image prune

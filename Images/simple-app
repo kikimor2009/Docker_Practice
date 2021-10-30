@@ -1,0 +1,50 @@
+# Base Image
+# We start from the image with java installed
+FROM openjdk:8u252-jre-slim-buster
+
+# Environment variables can be defined this way.
+# You can use these variables inside this Dockerfile.
+# Also, it will be available in images and containers 
+# created from this image
+ENV TOMCAT_MAJOR_VERSION 8
+ENV TOMCAT_VERSION 8.5.55
+ENV TOMCAT_URL https://archive.apache.org/dist/tomcat/tomcat-\${TOMCAT_MAJOR_VERSION}/v\${TOMCAT_VERSION}/bin/apache-tomcat-\${TOMCAT_VERSION}.tar.gz
+
+# Installation instructions
+RUN apt-get update && \
+    apt-get install -y curl && \
+    curl \${TOMCAT_URL} -O && \
+    tar xzvf apache-tomcat-\${TOMCAT_VERSION}.tar.gz -C /opt/ && \
+    mv /opt/apache-tomcat-\${TOMCAT_VERSION} /opt/tomcat && \
+    rm -f apache-tomcat-\${TOMCAT_VERSION}.tar.gz && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+# Working directory the process will start from
+WORKDIR /opt/tomcat
+
+# Deploying our application
+# "webapps/" starts from WORKDIR!
+COPY tomcat-app.war webapps/
+
+# We should let Docker know what is 
+# an Application port for the Container 
+# created from this image
+EXPOSE 8080
+
+# Sets the system call signal that will be 
+# sent to the container to exit
+STOPSIGNAL SIGTERM
+
+# Tells Docker how to test a container to check 
+# that it is still working
+HEALTHCHECK --timeout=3s --start-period=10s \
+  CMD curl -f http://localhost:8080/ || exit 1
+
+# Docker should know which process 
+# to be started as a "containerized"
+# Also, this command "catalina.sh run"
+# runs in foreground and prints put all
+# tomcat's logs into stdout!
+ENTRYPOINT ["bin/catalina.sh"]
+CMD ["run"]

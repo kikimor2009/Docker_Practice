@@ -1,0 +1,8 @@
+# Base Image
+FROM tomcat:8.5.55
+
+# Adding ROOT application - Tomcat Home Page - available by /
+ADD https://labs-assets.s3-eu-west-1.amazonaws.com/java/ROOT.war webapps/
+
+# Our custom application - available by /tomcat-app
+ADD https://labs-assets.s3-eu-west-1.amazonaws.com/java/tomcat-app.war webapps/

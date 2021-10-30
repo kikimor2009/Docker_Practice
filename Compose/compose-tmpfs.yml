@@ -1,0 +1,15 @@
+version: "3"
+
+services:
+  web:
+    container_name: nginx-compose
+    image: nginx:alpine
+    environment:
+      TZ: Europe/London
+    ports:
+      - "80:80"
+      - "443:443"
+    tmpfs:
+      - /run
+      - /tmp
+      - /var/cache/nginx

@@ -1,0 +1,12 @@
+version: "3"
+
+services:
+  web:
+    container_name: httpd_web
+    image: httpd
+    environment:
+      CREATED_BY: Siarhei Beliakou
+    ports:
+      - 8080:80
+    logging:
+      driver: journald

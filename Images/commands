@@ -1,0 +1,11 @@
+#Build image
+docker build -t {image name}[:{tag or version}] .
+docker build -t {image name}[:{tag or version}] -f {path to customly named Dockerfile} .
+
+docker image build -t c8j11 --build-arg CENTOS_IMAGE=centos:8 .
+docker image build -t c7j180 --build-arg CENTOS_IMAGE=centos:8 --build-arg JAVA_VERSION=1.8.0 .
+docker run --rm c8j11 java -version
+docker run --rm c7j180 java -version
+docker run azbykovskyi/mybox printenv MAINTAINER
+
+arturzbykovskyi - login & pass
