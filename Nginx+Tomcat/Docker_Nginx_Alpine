@@ -1,0 +1,11 @@
+FROM alpine:latest
+RUN apk update && \
+    apk add nginx && \
+    mkdir /www && \
+    adduser -D -g 'www' www && \
+    chown -R www:www /var/lib/nginx && \
+    chown -R www:www /www 
+COPY index.html /www
+COPY nginx.conf /etc/nginx/
+EXPOSE 80
+CMD ["/usr/sbin/nginx", "-g", "daemon off;"]

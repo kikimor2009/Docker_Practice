@@ -1,0 +1,19 @@
+docker run -d --name nginx_pid nginx:alpine
+docker run -d --name busy_sleep_inf --pid=container:nginx_pid busybox sleep infinity
+docker exec busy_sleep_inf ps >> root      0:00 sleep infinity
+
+#to run inside one networking ns
+docker run -dt --name net-tools --network=container:nginx-net sbeliakou/net-tools
+
+
+
+docker run -d --memory-swap -1 --memory 100m --memory-reservation 50m --name tomcat tomcat:jdk8-openjdk-slim
+
+
+docker run --rm --pid=container:web-conatiner centos ps
+docker run -d -it --net=container:nginx sbeliakou/net-tools
+docker run --rm --uts=host busybox hostname
+docker run -d -m 300M --memory-reservation 100M centos sleep infinity
+docker run -it -d --cpu-quota=25000 --name cpu0.25_1 alpine md5sum /dev/urandom
+docker run -it -d --cpus=0.25 --name cpu0.25_2 alpine md5sum /dev/urandom
+

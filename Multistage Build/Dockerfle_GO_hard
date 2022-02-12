@@ -1,0 +1,12 @@
+FROM golang as build
+ENV GOOS=linux
+ENV GOARCH=386
+COPY web.go .
+## Compiling *.go file
+RUN go build -a ./web.go
+
+FROM scratch
+COPY --from=build /go/web .
+EXPOSE 8080
+## Define container process
+CMD ["./web"]               

@@ -1,0 +1,46 @@
+## Mounting in read-write mode (bind mount)
+docker run -v '/full/path/on/the/host:/full/path/in/the/contatiner' ...
+
+## Mounting in read-only mode (bind mount)
+docker run -v '/full/path/on/the/host:/full/path/in/the/contatiner:ro' ...
+
+docker run -dp 10082:80 -v /opt/index.html:/usr/share/nginx/html/index.html --name c10082 nginx
+
+## Docker will create volume automatically
+docker run -v '/full/path/in/the/container' ...
+
+docker run --name c10083 -dp 10083:80 -v /usr/share/nginx/html nginx
+docker inspect c10083 | jq -r '.[].Mounts[].Source'
+
+docker run -dp 10084:80 -v c10084_data:/usr/share/nginx/html --name c10084 nginx
+echo 'This is the c10084 container' > /var/lib/docker/volumes/c10084_data/_data/index.html
+
+docker run -d --name html_data -v /root/index.html:/usr/share/nginx/html/index.html busybox sleep 100
+docker run -dp 10086:80 --volumes-from html_data --name c10086 nginx
+
+
+docker run -d -p 80:80 -v /usr/share/nginx/html nginx
+docker run -d -p 80:80 -v nginx_data:/usr/share/nginx/html nginx
+
+docker run -d --name html_data -v /usr/share/nginx/html busybox sleep infinity
+docker run -d --volumes-from html_data -p 81:80 nginx
+
+docker volume create --name http-custom-data
+docker volume ls
+docker volume inspect http-custom-data
+
+docker network ls
+docker network inspect bridge
+
+docker run --net=none -d --name inNoneContainer busybox
+docker run -d --network=host --name=nginx nginx
+
+docker run -d -it --name=my_container_1 busybox
+docker run -d -it --name=my_container_2 busybox
+docker network inspect bridge | jq '.[].Containers'
+
+docker network create < network_name >
+docker network create <options> <network>
+docker network create --help
+
+docker run -d --name=inmybridge1 --net=my_bridge_network centos sleep infinity
