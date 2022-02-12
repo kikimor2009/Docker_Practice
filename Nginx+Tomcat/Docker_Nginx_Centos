@@ -1,0 +1,7 @@
+FROM centos:7
+RUN yum install -y epel-release && \
+    yum install -y nginx && \
+    rm -rf /usr/share/nginx/html/index.html && \
+    echo "arturzbykovskyi/nginx:1-centos" > /usr/share/nginx/html/index.html
+EXPOSE 80
+CMD ["/usr/sbin/nginx", "-g", "daemon off;"]

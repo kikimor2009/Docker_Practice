@@ -1,0 +1,9 @@
+FROM alpine:latest
+RUN apk update && \
+    apk add openjdk11-jre-headless wget && \
+    java -version && \
+    mkdir /opt/tomcat && \
+    wget https://apache.ip-connect.vn.ua/tomcat/tomcat-8/v8.5.71/bin/apache-tomcat-8.5.71.tar.gz && \
+    tar xvzf apache-*.tar.gz --strip-components 1 --directory /opt/tomcat
+EXPOSE 8080
+CMD ["/opt/tomcat/bin/catalina.sh", "run"]

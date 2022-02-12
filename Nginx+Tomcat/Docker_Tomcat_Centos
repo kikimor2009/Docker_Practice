@@ -1,0 +1,12 @@
+FROM centos:7
+RUN mkdir /opt/tomcat/
+
+WORKDIR /opt/tomcat
+RUN curl -O https://apache.ip-connect.vn.ua/tomcat/tomcat-8/v8.5.71/bin/apache-tomcat-8.5.71.tar.gz
+RUN tar xvfz apache*.tar.gz
+RUN mv apache-tomcat-*/* /opt/tomcat/.
+RUN yum -y install java && java -version
+
+EXPOSE 8080
+
+CMD ["/opt/tomcat/bin/catalina.sh", "run"]
